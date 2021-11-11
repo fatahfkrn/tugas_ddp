@@ -7,11 +7,13 @@ def check():
 	regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 	email = input("Enter email: ")
 	if(re.fullmatch(regex, email)):
-		print("Valid Email")
+		return True
 	else:
-		print("Invalid Email, Try it again.")
-		return check()
-def validPass(password):
+         print("Email tidak valid")
+         return check()
+
+def validPass():
+    password = input("Masukkan password: ")
     chaeSept = ["!", "@", "#", "$"]
     if len(password) >= 8:
         if any(word.isnumeric() for word in password):
@@ -20,75 +22,84 @@ def validPass(password):
                     if any(word in chaeSept for word in password):
                         return True
                     else:
-                        return False
+                        print("Password tidak valid")
+                        return validPass()
                 else:
-                    return False
+                    print("Password tidak valid")
+                    return validPass()
             else:
-                return False
+                print("Password tidak valid")
+                return validPass()
         else:
-            return False
+            print("Password tidak valid")
+            return validPass()
     else:
-        return False
+        print("Password tidak valid")
+        return validPass()
 
-print("\n")
-print("Shopping Features")
-
+print()
+print("Fitur Belanja")
+print()
+print("Selamat datang di Toko NF Electrics!! Selamat berbelanja")
 i = 0
 j = 0
 while True:
     print()
-    product = str(input("Enter the name of the product to be purchased or X to finish: "))
+    product = str(input("Masukkan nama produk yang akan dibeli atau X untuk menyelesaikan: "))
+    while product == "":
+        product = input("Tidak Valid, ulangi: ")
     if product == "X" or product == "x" and i == 0:
+        print("Terimakasih sudah belanja di Toko Kami!")
         quit()
     if product == "X" or product == "x" and i != 0:
         print()
-        print("Total products purchased: ", i)
-        print("The price of the product purchased: ", j)
-        print("\n")
+        print("Jumlah produk yang dibeli: ", i)
+        print("Harga produk yang dibeli: ", j)
+        print()
         break
     else:
-        price = int(input("Enter product price: "))
-        print("Added successfully", product, "with price", float(price))
-        print()
+        price = int(input("Masukkan harga produk: "))
+        print("Berhasil menambahkan", product, "dengan harga", float(price))
         i += 1
         j += price
-anggota = str(input("Are you a member? (Y/T): "))
+anggota = str(input("Apakah kamu anggota? (Y/T): "))
 if anggota == "Y" or anggota == "y":
     check()
-    password = input("Enter Password: ")
     while True:
-        if validPass(password):
-            print("Valid Password")
-            break
+        if validPass():
+            level = input("Masukkan Level Keanggotaan Anda(Silver/Gold/Diamond): ")
+            print()
+            while level != "Silver" and level != "Gold" and level != "Diamond":
+                level = input ("Enter invalid, repeat: ")
+            else:
+                if level == "Silver":
+                    if i < 5:
+                        diskon = j * (5/100)
+                        print("Selamat! Anda mendapatkan potongan harga sebesar 5%")
+                    else:
+                        diskon = j * (10/100)
+                        print("Selamat! Anda mendapatkan potongan harga sebesar 10%")
+                elif level == "Gold":
+                    if i < 5:
+                        diskon = j * (10/100)
+                        print("Selamat! Anda mendapatkan potongan harga sebesar 10%")
+                    else:
+                        diskon = j * (15/100)
+                        print("Selamat! Anda mendapatkan potongan harga sebesar 15%")
+                elif level == "Diamond":
+                    if i < 5:
+                        diskon = j * (15/100)
+                        print("Selamat! Anda mendapatkan potongan harga sebesar 15%")
+                    else:
+                        diskon = j * (20/100)
+                        print("Selamat! Anda mendapatkan potongan harga sebesar 20%")
+                setelah_diskon = j - diskon
+                print("Total Harga yang harus dibayar: ", float(setelah_diskon))
+                quit()
         else:
-            password = input("Invalid Email, Try it again.")
-    level = input("Enter your Membership Level (Silver/Gold/Diamond): ")
-    print("\n")
-    while level != "Silver" and level != "Gold" and level != "Diamond":
-        level = input ("Enter invalid, repeat: ")
-    else:
-        if level == "Silver":
-            if i < 5:
-                diskon = j * (5/100)
-                print("Selamat! Anda mendapatkan potongan harga sebesar 5%")
-            else:
-                diskon = j * (10/100)
-                print("Selamat! Anda mendapatkan potongan harga sebesar 10%")
-        elif level == "Gold":
-            if i < 5:
-                diskon = j * (10/100)
-                print("Selamat! Anda mendapatkan potongan harga sebesar 10%")
-            else:
-                diskon = j * (15/100)
-                print("Selamat! Anda mendapatkan potongan harga sebesar 15%")
-        elif level == "Diamond":
-            if i < 5:
-                diskon = j * (15/100)
-                print("Selamat! Anda mendapatkan potongan harga sebesar 15%")
-            else:
-                diskon = j * (20/100)
-                print("Selamat! Anda mendapatkan potongan harga sebesar 20%")
-        setelah_diskon = j - diskon
-        print("Total Harga yang harus dibayar: ", float(setelah_diskon))
+            validPass()
+    
 print()
 print("Terimakasih sudah belanja di Toko Kami!")
+print("Sampai Jumpa!!!!")
+
